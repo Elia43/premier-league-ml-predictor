@@ -12,7 +12,7 @@
 
 ## 📌 Project Overview
 
-This project implements a complete, production-style ML pipeline across three model generations. Each generation builds on the last by fixing data quality issues, adding richer features, and upgrading the algorithm. The final model is a tuned **XGBoost classifier** solving a true 3-class problem (H / D / A) with **52.3% accuracy and a ROC-AUC of 0.668** — sitting 19 percentage points above random chance (33%) on a problem that professional betting models also find notoriously difficult.
+This project implements a complete, production-style ML pipeline across three model generations. Each generation builds on the last by fixing data quality issues, adding richer features, and upgrading the algorithm. The final model is a tuned **XGBoost classifier** solving a true 3-class problem (H / D / A) with **52.3% accuracy and a ROC-AUC of 0.668**: 7.7 percentage points above always predicting a home win, which already scores 44.5% on the same test set, on a problem that professional betting models also find notoriously difficult.
 
 **Key technical highlights:**
 - True 3-class target (H / D / A) correctly reconstructed from raw scorelines — not a binary collapse
@@ -156,7 +156,7 @@ ROC-AUC (macro OvR): 0.6682
    macro avg       0.44      0.43      0.38      1368
 ```
 
-> **Why 52% is a strong result:** Random guessing on 3 classes gives 33%. The model sits 19 percentage points above random, and the ROC-AUC of 0.668 shows it has genuine discriminative power. The Draw class (D) is the hardest to predict in football — even professional betting models struggle with it. The model correctly identifies Home Wins with 90% recall, showing it has learned the dominant signal in the data.
+> **How good is 52%?** Random guessing on 3 classes gives 33%, but the classes aren't balanced: always predicting a home win already scores 44.5% on this test set (609 of 1,368 matches). So the honest margin is 7.7 percentage points: the model gets 106 more matches right than that baseline. The ROC-AUC of 0.668 shows real discriminative power. The model finds 90% of home wins but almost never predicts a draw (1% recall), the hardest result to call in football; even professional betting models struggle with it.
 
 > **Why the old CPU code showed 65.5%:** That code used `objective='binary:logistic'` — it was still solving the 2-class problem. It is NOT a better model; it is solving an easier, less useful task.
 
